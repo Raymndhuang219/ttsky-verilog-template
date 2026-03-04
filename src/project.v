@@ -31,7 +31,7 @@ module tt_um_reaction_timer (
 
     assign uio_oe = 8'hFF;
 
-    parameter CLK_HZ   = 50_000_000;
+    parameter CLK_HZ   = 1_000_000;
     parameter MS_DIV  = CLK_HZ / 1000;
     parameter MUX_DIV = CLK_HZ / 1000;
 
