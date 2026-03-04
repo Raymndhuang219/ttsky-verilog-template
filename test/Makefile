@@ -13,6 +13,8 @@ ifneq ($(GATES),yes)
 # RTL simulation:
 SIM_BUILD				= sim_build/rtl
 VERILOG_SOURCES += $(addprefix $(SRC_DIR)/,$(PROJECT_SOURCES))
+# Override CLK_HZ for simulation so tests run at 1 MHz instead of 50 MHz
+EXTRA_ARGS += -GCLK_HZ=1000000
 
 else
 
