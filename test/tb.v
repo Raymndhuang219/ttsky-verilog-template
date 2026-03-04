@@ -28,7 +28,7 @@ module tb ();
 `endif
 
   // Replace tt_um_example with your module name:
-  tt_um_example user_project (
+  tt_um_reaction_timer user_project (
 
       // Include power ports for the Gate Level test:
 `ifdef GL_TEST
@@ -45,5 +45,9 @@ module tb ();
       .clk    (clk),      // clock
       .rst_n  (rst_n)     // not reset
   );
+
+  // Override CLK_HZ for simulation (1 MHz instead of 50 MHz) so tests run fast.
+  // The real value of 50_000_000 in project.v is used during synthesis.
+  defparam user_project.CLK_HZ = 1_000_000;
 
 endmodule
