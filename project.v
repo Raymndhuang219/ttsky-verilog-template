@@ -76,7 +76,7 @@ module tt_um_reaction_timer (
     end
 
     // Pick a delay of 1–8 seconds from top 3 bits (1..8)
-    wire [2:0] rand_secs = (lfsr[15:13] == 3'b000) ? 3'd1 : lfsr[15:13];
+    wire [2:0] rand_secs = (lfsr[14:12] % 5) + 1;
 
     // ---------------------------------------------------------------------
     // Counters
