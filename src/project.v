@@ -59,14 +59,14 @@ module tt_um_reaction_timer (
     end
 
     // 1-5 seconds lookup
-    wire [2:0] rand_secs =
-        (lfsr[14:12]==3'd0) ? 3'd3 :
-        (lfsr[14:12]==3'd1) ? 3'd1 :
-        (lfsr[14:12]==3'd2) ? 3'd4 :
-        (lfsr[14:12]==3'd3) ? 3'd2 :
-        (lfsr[14:12]==3'd4) ? 3'd5 :
-        (lfsr[14:12]==3'd5) ? 3'd3 :
-        (lfsr[14:12]==3'd6) ? 3'd1 : 3'd4;
+    wire [2:0] rand_secs = 3'd1
+        //(lfsr[14:12]==3'd0) ? 3'd3 :
+        //(lfsr[14:12]==3'd1) ? 3'd1 :
+        //(lfsr[14:12]==3'd2) ? 3'd4 :
+        //(lfsr[14:12]==3'd3) ? 3'd2 :
+        //(lfsr[14:12]==3'd4) ? 3'd5 :
+        //(lfsr[14:12]==3'd5) ? 3'd3 :
+        //(lfsr[14:12]==3'd6) ? 3'd1 : 3'd4;
 
     
     // ms tick: pulses 1 cycle every millisecond
