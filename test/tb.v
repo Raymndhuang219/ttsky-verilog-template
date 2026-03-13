@@ -46,6 +46,8 @@ module tb ();
       .rst_n  (rst_n)     // not reset
   );
 
+`ifndef GL_TEST
   defparam user_project.CLK_HZ = 1_000_000;
+`endif
 
 endmodule
