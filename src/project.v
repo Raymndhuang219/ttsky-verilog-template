@@ -1,5 +1,5 @@
 /*
- * Reaction Time Tester - Tiny Tapeout SKY130
+ * Reaction Time Tester
  *
  * One button (ui_in[0]) to start and react.
  * 3-digit 7-segment multiplexed display:
@@ -11,9 +11,6 @@
  *   WAITING - random delay 1-5 seconds, press early = reset to IDLE
  *   GO      - display shows " Go", timer counting ms
  *   RESULT  - display shows reaction time in ms (0-999)
- *
- * IMPORTANT: Set CLK_HZ to match your board before submitting.
- * Default is 50_000_000 (50 MHz). Change to 1_000_000 for simulation.
  */
 
 `default_nettype none
@@ -43,9 +40,8 @@ module tt_um_reaction_timer (
 
     reg [1:0] state;
 
-    // -----------------------------------------------------------------------
     // Button sync + edge detect
-    // -----------------------------------------------------------------------
+  
     reg b0, b1, b2;
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin b0<=0; b1<=0; b2<=0; end
@@ -53,9 +49,9 @@ module tt_um_reaction_timer (
     end
     wire btn = b1 & ~b2;
 
-    // -----------------------------------------------------------------------
+  
     // LFSR
-    // -----------------------------------------------------------------------
+    
     reg [15:0] lfsr;
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) lfsr <= 16'hACE1;
@@ -72,9 +68,9 @@ module tt_um_reaction_timer (
         (lfsr[14:12]==3'd5) ? 3'd3 :
         (lfsr[14:12]==3'd6) ? 3'd1 : 3'd4;
 
-    // -----------------------------------------------------------------------
+    
     // ms tick: pulses 1 cycle every millisecond
-    // -----------------------------------------------------------------------
+   
     reg [25:0] ms_cnt;
     reg        ms_tick;
     always @(posedge clk or negedge rst_n) begin
@@ -86,9 +82,9 @@ module tt_um_reaction_timer (
         end
     end
 
-    // -----------------------------------------------------------------------
+   
     // sec tick: pulses 1 cycle every second
-    // -----------------------------------------------------------------------
+    
     reg [9:0] sec_cnt;
     reg       sec_tick;
     always @(posedge clk or negedge rst_n) begin
@@ -102,9 +98,9 @@ module tt_um_reaction_timer (
         end
     end
 
-    // -----------------------------------------------------------------------
+    
     // State machine
-    // -----------------------------------------------------------------------
+    
     reg [2:0] wait_secs;
     reg [9:0] ms_ctr;
     reg [9:0] result_ms;
@@ -151,16 +147,16 @@ module tt_um_reaction_timer (
         end
     end
 
-    // -----------------------------------------------------------------------
+    
     // BCD
-    // -----------------------------------------------------------------------
+    
     wire [3:0] d_h = result_ms / 100;
     wire [3:0] d_t = (result_ms % 100) / 10;
     wire [3:0] d_u = result_ms % 10;
 
-    // -----------------------------------------------------------------------
-    // 7-segment (common cathode, active high) {dp,g,f,e,d,c,b,a}
-    // -----------------------------------------------------------------------
+    
+    // 7-segment (active high) {dp,g,f,e,d,c,b,a}
+    
     function [7:0] seg7(input [3:0] d);
         case (d)
             4'd0: seg7 = 8'b00111111;
@@ -182,9 +178,9 @@ module tt_um_reaction_timer (
     localparam SEG_O     = 8'b00111111;
     localparam SEG_BLANK = 8'b00000000;
 
-    // -----------------------------------------------------------------------
+    
     // Mux display
-    // -----------------------------------------------------------------------
+    
     reg [1:0]  mux_d;
     reg [25:0] mux_cnt;
     always @(posedge clk or negedge rst_n) begin
